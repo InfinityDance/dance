@@ -6,15 +6,29 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbx1cPQkyROmsfsQBHR_yaoy
 // Функция для преобразования даты/времени в строку "ЧЧ:ММ"
 function formatTimeFromDate(dateString) {
     if (!dateString) return '';
-    // Если это уже строка вида "10:00" - оставляем
     if (/^\d{2}:\d{2}$/.test(dateString)) return dateString;
     try {
         const date = new Date(dateString);
-        // Если дата невалидна, пробуем распарсить вручную, но обычно это срабатывает
         if (isNaN(date.getTime())) return '';
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         return `${hours}:${minutes}`;
+    } catch (e) {
+        return '';
+    }
+}
+
+// Функция для преобразования даты в формат "DD.MM"
+function formatDateToDDMM(dateString) {
+    if (!dateString) return '';
+    // Если уже строка вида "13.07" — возвращаем как есть
+    if (/^\d{2}\.\d{2}$/.test(dateString)) return dateString;
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return '';
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        return `${day}.${month}`;
     } catch (e) {
         return '';
     }
@@ -58,11 +72,43 @@ function renderSchedule(data) {
         return;
     }
 
+    // ========== НОВЫЙ БЛОК: собираем даты для заголовков ==========
+    const dateMap = {};
+    data.forEach(item => {
+        // Пытаемся найти день и дату (регистронезависимо)
+        const day = item.Day || item.day || '';
+        const dateVal = item.Date || item.date || '';
+        if (day && dateVal && !dateMap[day]) {
+            const formatted = formatDateToDDMM(dateVal);
+            if (formatted) {
+                dateMap[day] = formatted;
+            }
+        }
+    });
+    console.log('Даты для дней:', dateMap);
+
+    // Обновляем заголовки
+    const dayHeaders = document.querySelectorAll('#dynamic-schedule thead th .date');
+    const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    dayHeaders.forEach((span, index) => {
+        const day = daysOfWeek[index];
+        if (day && dateMap[day]) {
+            span.textContent = dateMap[day];
+        } else {
+            // Если дата не найдена, оставляем старый текст или ставим "??"
+            // Можно ничего не менять, чтобы сохранить статичные даты
+            // или заменить на "??" для наглядности
+            if (!span.textContent || span.textContent === '') {
+                span.textContent = '??';
+            }
+        }
+    });
+    // ========== КОНЕЦ НОВОГО БЛОКА ==========
+
     console.log('8. Данные есть, строим карту');
     const lessonMap = {};
     data.forEach(item => {
         console.log('   Обрабатываем элемент:', item);
-        // Определяем день и время, пробуем разные варианты ключей
         const day = item.Day || item.day || '';
         let time = '';
         if (item.Time) {
@@ -84,7 +130,7 @@ function renderSchedule(data) {
     });
     console.log('9. lessonMap построена:', lessonMap);
 
-    const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    // Обратите внимание: дни недели уже определены выше
     const times = [];
     for (let hour = 9; hour <= 21; hour++) {
         const h = String(hour).padStart(2, '0');
