@@ -72,43 +72,38 @@ function renderSchedule(data) {
         return;
     }
 
-    // ========== НОВЫЙ БЛОК: собираем даты для заголовков ==========
+    // ========== АВТОМАТИЧЕСКОЕ ВЫЧИСЛЕНИЕ ДАТ ТЕКУЩЕЙ НЕДЕЛИ ==========
+    const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
     const dateMap = {};
-    data.forEach(item => {
-        // Пытаемся найти день и дату (регистронезависимо)
-        const day = item.Day || item.day || '';
-        const dateVal = item.Date || item.date || '';
-        if (day && dateVal && !dateMap[day]) {
-            const formatted = formatDateToDDMM(dateVal);
-            if (formatted) {
-                dateMap[day] = formatted;
-            }
-        }
-    });
-    console.log('Даты для дней:', dateMap);
+
+    const today = new Date();
+    const currentDay = today.getDay(); // 0 - вс, 1 - пн, ...
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - (currentDay === 0 ? 6 : currentDay - 1));
+
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const dayNum = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        dateMap[daysOfWeek[i]] = `${dayNum}.${month}`;
+    }
+    console.log('Даты текущей недели:', dateMap);
+    // ========== КОНЕЦ БЛОКА ==========
 
     // Обновляем заголовки
     const dayHeaders = document.querySelectorAll('#dynamic-schedule thead th .date');
-    const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
     dayHeaders.forEach((span, index) => {
         const day = daysOfWeek[index];
         if (day && dateMap[day]) {
             span.textContent = dateMap[day];
-        } else {
-            // Если дата не найдена, оставляем старый текст или ставим "??"
-            // Можно ничего не менять, чтобы сохранить статичные даты
-            // или заменить на "??" для наглядности
-            if (!span.textContent || span.textContent === '') {
-                span.textContent = '??';
-            }
         }
     });
-    // ========== КОНЕЦ НОВОГО БЛОКА ==========
 
+    // Далее идёт построение карты занятий (без изменений)...
     console.log('8. Данные есть, строим карту');
     const lessonMap = {};
     data.forEach(item => {
-        console.log('   Обрабатываем элемент:', item);
         const day = item.Day || item.day || '';
         let time = '';
         if (item.Time) {
@@ -116,10 +111,7 @@ function renderSchedule(data) {
         } else if (item.time) {
             time = formatTimeFromDate(item.time);
         }
-        if (!day || !time) {
-            console.log('   Пропускаем, нет Day или Time');
-            return;
-        }
+        if (!day || !time) return;
         const key = `${day}|${time}`;
         lessonMap[key] = {
             lesson: item.Lesson || item.lesson || '',
@@ -128,16 +120,13 @@ function renderSchedule(data) {
             total: item.Total || item.total || 10
         };
     });
-    console.log('9. lessonMap построена:', lessonMap);
 
-    // Обратите внимание: дни недели уже определены выше
     const times = [];
     for (let hour = 9; hour <= 21; hour++) {
         const h = String(hour).padStart(2, '0');
         times.push(`${h}:00`);
     }
 
-    console.log('10. Начинаем строить строки таблицы');
     times.forEach(time => {
         const row = tbody.insertRow();
         const timeCell = row.insertCell();
