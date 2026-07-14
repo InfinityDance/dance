@@ -1,7 +1,7 @@
 // schedule.js
 
 // URL вашего веб-приложения (получен на шаге 2)
-const API_URL = 'https://script.google.com/macros/s/AKfycbx1cPQkyROmsfsQBHR_yaoyPnWz6g9Woz1PXg2HH_GRwexWYUXTdepC7fECPbNFMr4Kjg/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwC4oS3UV4jk11vegw2CFILPUCmvIDLpfvUJD9a-TaLGoXr-EsXsyycxf0RLmAFMBQcBw/exec';
 
 // ===== Преобразование времени =====
 function formatTimeFromDate(dateString) {
