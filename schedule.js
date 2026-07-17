@@ -1,6 +1,6 @@
 // schedule.js
 
-// URL вашего веб-приложения (получен на шаге 2)
+// URL веб-приложения
 const API_URL = 'https://script.google.com/macros/s/AKfycbxcLHdtADSc8VGWiHM8aqBT_b-7CMSt9CYTnpP_VjZlr7FgPy-yVx3YMuUi06GbDMMGoQ/exec';
 
 // ===== Преобразование времени =====
