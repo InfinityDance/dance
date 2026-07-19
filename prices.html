@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Цены на абонементы — ИНФИНИТИ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== ОБЩИЕ СТИЛИ (такие же, как на других страницах) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: #fdf6f0;
+            color: #5a4e4e;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(2px);
+            padding: 2rem 2rem 3rem;
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(200, 160, 160, 0.15);
+            overflow-x: auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px dashed #e8d5d5;
+            padding-bottom: 1.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo-icon {
+            font-size: 2.8rem;
+            color: #d4a5a5;
+        }
+        .studio-name h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #c27e7e;
+            letter-spacing: 1px;
+        }
+        .studio-name p {
+            font-size: 0.9rem;
+            color: #b29797;
+            font-style: italic;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            text-decoration: none;
+            color: #7a5f5f;
+            font-weight: 500;
+            padding: 0.3rem 0;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .main-nav a:hover {
+            border-bottom-color: #d4a5a5;
+            color: #c27e7e;
+        }
+        .main-nav a.active {
+            border-bottom-color: #d4a5a5;
+            color: #c27e7e;
+        }
+
+        .tagline {
+            background: #e2d5d5;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            color: #7a5f5f;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* ===== СТИЛИ ДЛЯ СТРАНИЦЫ ЦЕН ===== */
+        .prices-section {
+            margin-bottom: 3rem;
+        }
+        .prices-section .section-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #c27e7e;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .prices-section .section-title i {
+            font-size: 1.8rem;
+            color: #a8d5ba;
+        }
+
+        .prices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .price-card {
+            background: #ffffffd9;
+            padding: 1.5rem 1rem;
+            border-radius: 24px;
+            box-shadow: 0 6px 18px rgba(190, 150, 150, 0.08);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .price-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(190, 150, 150, 0.15);
+        }
+        .price-card .price-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #c27e7e;
+            margin-bottom: 0.5rem;
+        }
+        .price-card .price-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #5a4e4e;
+            margin: 0.5rem 0;
+        }
+        .price-card .price-value small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #b29797;
+        }
+        .price-card .price-desc {
+            font-size: 0.9rem;
+            color: #7a5f5f;
+            margin: 0.3rem 0;
+        }
+        .price-card .price-desc i {
+            color: #d4a5a5;
+            margin-right: 0.3rem;
+        }
+
+        .prices-note {
+            margin-top: 2rem;
+            padding: 1.2rem 1.5rem;
+            background: #eaf5ea;
+            border-radius: 20px;
+            color: #2d5a3d;
+            font-size: 0.95rem;
+            border-left: 4px solid #a8d5ba;
+        }
+        .prices-note i {
+            margin-right: 0.6rem;
+            color: #a8d5ba;
+        }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #b8a8a8;
+            border-top: 1px solid #eee2e2;
+            padding-top: 1.5rem;
+        }
+        .footer-note i {
+            color: #d4a5a5;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1.5rem 0.5rem;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+            }
+            .tagline {
+                align-self: flex-start;
+            }
+            .studio-name h1 {
+                font-size: 1.6rem;
+            }
+            .main-nav {
+                margin-top: 0.5rem;
+                gap: 1rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+            .prices-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .prices-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fas fa-dance"></i></div>
+            <div class="studio-name">
+                <h1>ИНФИНИТИ</h1>
+                <p>студия танцев</p>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Расписание</a>
+            <a href="rules.html">Правила</a>
+            <a href="prices.html" class="active">Цены</a>
+        </nav>
+        <div class="tagline">
+            <i class="fas fa-calendar-alt" style="margin-right: 0.5rem;"></i> Выбери свой абонемент
+        </div>
+    </header>
+
+    <section class="prices-section">
+        <div class="section-title">
+            <i class="fas fa-tags"></i> Цены на абонементы
+        </div>
+
+        <div class="prices-grid">
+            <!-- Карточка 1 -->
+            <div class="price-card">
+                <div class="price-name">Разовое занятие</div>
+                <div class="price-value">500 ₽</div>
+                <div class="price-desc"><i class="fas fa-clock"></i> 1 занятие</div>
+                <div class="price-desc"><i class="fas fa-calendar-day"></i> Действует 1 день</div>
+            </div>
+            <!-- Карточка 2 -->
+            <div class="price-card">
+                <div class="price-name">Абонемент на 4 занятия</div>
+                <div class="price-value">1 800 ₽ <small>— 450 ₽/занятие</small></div>
+                <div class="price-desc"><i class="fas fa-clock"></i> 4 занятия</div>
+                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 30 дней</div>
+            </div>
+            <!-- Карточка 3 -->
+            <div class="price-card">
+                <div class="price-name">Абонемент на 8 занятий</div>
+                <div class="price-value">3 200 ₽ <small>— 400 ₽/занятие</small></div>
+                <div class="price-desc"><i class="fas fa-clock"></i> 8 занятий</div>
+                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 60 дней</div>
+            </div>
+            <!-- Карточка 4 -->
+            <div class="price-card">
+                <div class="price-name">Безлимитный абонемент</div>
+                <div class="price-value">5 500 ₽ <small>/ месяц</small></div>
+                <div class="price-desc"><i class="fas fa-infinity"></i> Неограниченное число занятий</div>
+                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 30 дней</div>
+            </div>
+            <!-- Карточка 5 (детский, если есть) -->
+            <div class="price-card">
+                <div class="price-name">Детский абонемент (4 занятия)</div>
+                <div class="price-value">1 400 ₽ <small>— 350 ₽/занятие</small></div>
+                <div class="price-desc"><i class="fas fa-child"></i> Для детей до 14 лет</div>
+                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 30 дней</div>
+            </div>
+            <!-- Карточка 6 (индивидуальные) -->
+            <div class="price-card">
+                <div class="price-name">Индивидуальное занятие</div>
+                <div class="price-value">1 200 ₽</div>
+                <div class="price-desc"><i class="fas fa-user-check"></i> Персональный подход</div>
+                <div class="price-desc"><i class="fas fa-calendar-day"></i> 1 занятие</div>
+            </div>
+        </div>
+
+        <div class="prices-note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Условия:</strong> Абонементы не суммируются, не переносятся и не возвращаются. Для записи на занятие необходимо предварительно забронировать место через расписание. Приятных тренировок!
+        </div>
+    </section>
+
+    <div class="footer-note">
+        <i class="fas fa-arrow-right"></i> Сделано с душой для танцоров
+        <span style="margin:0 0.5rem;">•</span> <i class="fas fa-music"></i>
+    </div>
+
+</div>
+
+</body>
+</html>
