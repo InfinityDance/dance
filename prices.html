@@ -6,7 +6,7 @@
     <title>Цены на абонементы — ИНФИНИТИ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ===== ОБЩИЕ СТИЛИ (такие же, как на других страницах) ===== */
+        /* ===== ОБЩИЕ СТИЛИ (как на всех страницах) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -102,60 +102,63 @@
             font-size: 1.8rem;
             font-weight: 500;
             color: #c27e7e;
-            margin-bottom: 1.5rem;
+            margin: 2rem 0 1.2rem;
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            border-bottom: 1px dashed #e8d5d5;
+            padding-bottom: 0.5rem;
+        }
+        .prices-section .section-title:first-of-type {
+            margin-top: 0;
         }
         .prices-section .section-title i {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: #a8d5ba;
         }
 
-        .prices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
+        .price-table-wrap {
+            overflow-x: auto;
+            border-radius: 20px;
+            background: #ffffffd9;
+            box-shadow: 0 6px 18px rgba(190, 150, 150, 0.08);
+            margin-bottom: 1.5rem;
         }
 
-        .price-card {
-            background: #ffffffd9;
-            padding: 1.5rem 1rem;
-            border-radius: 24px;
-            box-shadow: 0 6px 18px rgba(190, 150, 150, 0.08);
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 400px;
         }
-        .price-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(190, 150, 150, 0.15);
+        .price-table th {
+            background: #f7eded;
+            color: #7a5f5f;
+            font-weight: 600;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e8d5d5;
         }
-        .price-card .price-name {
-            font-size: 1.2rem;
+        .price-table td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid #f0e6e6;
+        }
+        .price-table tr:last-child td {
+            border-bottom: none;
+        }
+        .price-table .price-col {
             font-weight: 600;
             color: #c27e7e;
-            margin-bottom: 0.5rem;
+            white-space: nowrap;
         }
-        .price-card .price-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #5a4e4e;
-            margin: 0.5rem 0;
-        }
-        .price-card .price-value small {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #b29797;
-        }
-        .price-card .price-desc {
-            font-size: 0.9rem;
+        .price-table .category-row td {
+            background: #fcf5f5;
+            font-weight: 500;
             color: #7a5f5f;
-            margin: 0.3rem 0;
+            padding: 0.5rem 1rem;
         }
-        .price-card .price-desc i {
-            color: #d4a5a5;
-            margin-right: 0.3rem;
+        .price-table .sub-row td {
+            padding-left: 2rem;
         }
 
         .prices-note {
@@ -206,13 +209,12 @@
             .section-title {
                 font-size: 1.4rem;
             }
-            .prices-grid {
-                grid-template-columns: 1fr 1fr;
+            .price-table {
+                font-size: 0.85rem;
+                min-width: 300px;
             }
-        }
-        @media (max-width: 480px) {
-            .prices-grid {
-                grid-template-columns: 1fr;
+            .price-table th, .price-table td {
+                padding: 0.5rem 0.6rem;
             }
         }
     </style>
@@ -235,71 +237,102 @@
             <a href="prices.html" class="active">Цены</a>
         </nav>
         <div class="tagline">
-            <i class="fas fa-calendar-alt" style="margin-right: 0.5rem;"></i> Выбери свой абонемент
+            <i class="fas fa-tags" style="margin-right: 0.5rem;"></i> Цены с 01.01.2026
         </div>
     </header>
 
     <section class="prices-section">
+
+        <!-- Абонементы "Без Пилона" -->
         <div class="section-title">
-            <i class="fas fa-tags"></i> Цены на абонементы
+            <i class="fas fa-dumbbell"></i> Абонементы «Без Пилона»
+        </div>
+        <div class="price-table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Количество занятий</th>
+                        <th>Стоимость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>4 занятия</td><td class="price-col">3 200 ₽</td></tr>
+                    <tr><td>8 занятий</td><td class="price-col">5 500 ₽</td></tr>
+                    <tr><td>12 занятий</td><td class="price-col">6 600 ₽</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="prices-grid">
-            <!-- Карточка 0 -->
-            <div class="price-card">
-                <div class="price-name">Пробное занятие</div>
-                <div class="price-value">БЕСПЛАТНО при покупке абонемента в день пробной тренировки или 500 ₽</div>
-                <div class="price-desc"><i class="fas fa-clock"></i> 1 занятие</div>
-                <div class="price-desc"><i class="fas fa-calendar-day"></i> Действует 1 день</div>
-            </div>
-            <!-- Карточка 1 -->
-            <div class="price-card">
-                <div class="price-name">Разовое занятие</div>
-                <div class="price-value">500 ₽</div>
-                <div class="price-desc"><i class="fas fa-clock"></i> 1 занятие</div>
-                <div class="price-desc"><i class="fas fa-calendar-day"></i> Действует 1 день</div>
-            </div>
-            <!-- Карточка 2 -->
-            <div class="price-card">
-                <div class="price-name">Абонемент на 4 занятия</div>
-                <div class="price-value">1 800 ₽ <small>— 450 ₽/занятие</small></div>
-                <div class="price-desc"><i class="fas fa-clock"></i> 4 занятия</div>
-                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 30 дней</div>
-            </div>
-            <!-- Карточка 3 -->
-            <div class="price-card">
-                <div class="price-name">Абонемент на 8 занятий</div>
-                <div class="price-value">3 200 ₽ <small>— 400 ₽/занятие</small></div>
-                <div class="price-desc"><i class="fas fa-clock"></i> 8 занятий</div>
-                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 60 дней</div>
-            </div>
-            <!-- Карточка 4 -->
-            <div class="price-card">
-                <div class="price-name">Безлимитный абонемент</div>
-                <div class="price-value">5 500 ₽ <small>/ месяц</small></div>
-                <div class="price-desc"><i class="fas fa-infinity"></i> Неограниченное число занятий</div>
-                <div class="price-desc"><i class="fas fa-calendar-alt"></i> Действует 30 дней</div>
-            </div>
-            <!-- Карточка 6 (индивидуальные) -->
-            <div class="price-card">
-                <div class="price-name">Индивидуальное занятие</div>
-                <div class="price-value">1 200 ₽</div>
-                <div class="price-desc"><i class="fas fa-user-check"></i> Персональный подход</div>
-                <div class="price-desc"><i class="fas fa-calendar-day"></i> 1 занятие</div>
-            </div>
-            <!-- Карточка 6 (индивидуальные) -->
-            <div class="price-card">
-                <div class="price-name">Двойное индивидуальное занятие</div>
-                <div class="price-value">2400 ₽</div>
-                <div class="price-desc"><i class="fas fa-user-check"></i> Персональный подход</div>
-                <div class="price-desc"><i class="fas fa-calendar-day"></i> 1 занятие</div>
-            </div>
+        <!-- Абонементы "С Пилоном" -->
+        <div class="section-title">
+            <i class="fas fa-dumbbell"></i> Абонементы «С Пилоном»
+        </div>
+        <div class="price-table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Количество занятий</th>
+                        <th>Стоимость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>4 занятия</td><td class="price-col">3 600 ₽</td></tr>
+                    <tr><td>8 занятий</td><td class="price-col">6 300 ₽</td></tr>
+                    <tr><td>12 занятий</td><td class="price-col">8 200 ₽</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Долгосрочные абонементы -->
+        <div class="section-title">
+            <i class="fas fa-calendar-alt"></i> Долгосрочные абонементы
+        </div>
+        <div class="price-table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Абонемент</th>
+                        <th>Кол-во занятий</th>
+                        <th>Стоимость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>3 месяца «Без Пилона»</td><td>30 занятий</td><td class="price-col">16 000 ₽</td></tr>
+                    <tr><td>3 месяца «С Пилоном»</td><td>30 занятий</td><td class="price-col">20 000 ₽</td></tr>
+                    <tr><td>6 месяцев «Без Пилона»</td><td>60 занятий</td><td class="price-col">30 000 ₽</td></tr>
+                    <tr><td>6 месяцев «С Пилоном»</td><td>60 занятий</td><td class="price-col">39 000 ₽</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Разовые и индивидуальные -->
+        <div class="section-title">
+            <i class="fas fa-user-plus"></i> Разовые и индивидуальные занятия
+        </div>
+        <div class="price-table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Тип занятия</th>
+                        <th>Стоимость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Разовое занятие (без пилона)</td><td class="price-col">850 ₽</td></tr>
+                    <tr><td>Разовое занятие (с пилоном)</td><td class="price-col">1 000 ₽</td></tr>
+                    <tr><td>Разовое занятие (йога)</td><td class="price-col">900 ₽</td></tr>
+                    <tr><td>Индивидуальное (1 человек)</td><td class="price-col">1 800 ₽</td></tr>
+                    <tr><td>Индивидуальное (2 человека)</td><td class="price-col">2 400 ₽</td></tr>
+                    <tr><td>Пробное занятие (первое посещение)</td><td class="price-col">500 ₽</td></tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="prices-note">
             <i class="fas fa-info-circle"></i>
-            <strong>Условия:</strong> По вопросам суммирования, переноса и возврата абонементов писать администратору. Для записи на занятие необходимо предварительно забронировать место через расписание. Активация абонемента происходит в день первого посещения по нему. Приятных тренировок!
+            <strong>Условия:</strong> Абонементы не суммируются, не переносятся и не возвращаются. Для записи на занятие необходимо предварительно забронировать место через расписание. Пробное занятие — только при первом посещении.
         </div>
+
     </section>
 
     <div class="footer-note">
